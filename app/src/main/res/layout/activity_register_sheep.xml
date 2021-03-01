@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/registerLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterSheepActivity">
+
+    <TextView
+        android:id="@+id/tv_formHeader"
+        android:layout_width="383dp"
+        android:layout_height="103dp"
+        android:text="REGISTER SHEEP"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="41dp" />
+
+    <TextView
+        android:id="@+id/tv_numberHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_formHeader"
+        android:text="Total number of sheep spotted"/>
+
+    <EditText
+        android:id="@+id/et_numberTotal"
+
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_numberHeader"
+        android:layout_marginTop="3dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:inputType="number"
+        android:text="0"
+        android:textColor="@android:color/background_dark" />
+
+    <Button
+        android:id="@+id/btn_increaseTotal"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_numberHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/et_numberTotal"
+        android:onClick="increaseTotal"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/btn_decreaseTotal"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_numberHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/btn_increaseTotal"
+        android:onClick="decreaseTotal"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/tv_numberBlackHeader"
+        android:layout_marginTop="30px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_numberTotal"
+        android:text="Number of black sheep spotted" />
+
+    <EditText
+        android:id="@+id/et_numberBlack"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_numberBlackHeader"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:text="0"
+        android:textColor="@android:color/background_dark"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_increaseBlack"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_numberBlackHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/et_numberBlack"
+        android:onClick="increaseBlack"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/btn_decreaseBlack"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_numberBlackHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/btn_increaseBlack"
+        android:onClick="decreaseBlack"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/tv_numberWhiteHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_numberBlack"
+        android:layout_marginTop="30px"
+        android:text="Number of white sheep spotted" />
+
+    <EditText
+        android:id="@+id/et_numberWhite"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_numberWhiteHeader"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:text="0"
+        android:textColor="@android:color/background_dark"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_increaseWhite"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_numberWhiteHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/et_numberWhite"
+        android:onClick="increaseWhite"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/btn_decreaseWhite"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_numberWhiteHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/btn_increaseWhite"
+        android:onClick="decreaseWhite"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/tv_redTiesHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_numberWhite"
+        android:layout_marginTop="60px"
+        android:text="Number of red ties spotted" />
+
+    <EditText
+        android:id="@+id/et_redTies"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_redTiesHeader"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:text="0"
+        android:textColor="@android:color/background_dark"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_increaseRedTies"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_redTiesHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/et_redTies"
+        android:onClick="increaseRedTies"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/btn_decreaseRedTies"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_redTiesHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/btn_increaseRedTies"
+        android:onClick="decreaseRedTies"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/tv_yellowTiesHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_redTies"
+        android:layout_marginTop="30px"
+        android:text="Number of yellow ties spotted" />
+
+    <EditText
+        android:id="@+id/et_yellowTies"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_yellowTiesHeader"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:text="0"
+        android:textColor="@android:color/background_dark"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_increaseYellowTies"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_yellowTiesHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/et_yellowTies"
+        android:onClick="increaseYellowTies"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/btn_decreaseYellowTies"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_yellowTiesHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/btn_increaseYellowTies"
+        android:onClick="decreaseYellowTies"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/tv_greenTiesHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_yellowTies"
+        android:layout_marginTop="30px"
+        android:text="Number of green ties spotted" />
+
+    <EditText
+        android:id="@+id/et_greenTies"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_greenTiesHeader"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:text="0"
+        android:textColor="@android:color/background_dark"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_increaseGreenTies"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_greenTiesHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/et_greenTies"
+        android:onClick="increaseGreenTies"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/btn_decreaseGreenTies"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_greenTiesHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/btn_increaseGreenTies"
+        android:onClick="decreaseGreenTies"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/tv_blueTiesHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_greenTies"
+        android:layout_marginTop="30px"
+        android:text="Number of blue ties spotted" />
+
+    <EditText
+        android:id="@+id/et_blueTies"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_blueTiesHeader"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:text="0"
+        android:textColor="@android:color/background_dark"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_increaseBlueTies"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_blueTiesHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/et_blueTies"
+        android:onClick="increaseBlueTies"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/btn_decreaseBlueTies"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_blueTiesHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/btn_increaseBlueTies"
+        android:onClick="decreaseBlueTies"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/tv_earMarkHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_blueTies"
+        android:layout_marginTop="50px"
+        android:text="Which ear marks did you see?" />
+
+    <CheckBox
+        android:id="@+id/cb_redEar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_earMarkHeader"
+        android:text="Red" />
+
+    <CheckBox
+        android:id="@+id/cb_yellowEar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_earMarkHeader"
+        android:layout_marginLeft="100px"
+        android:layout_toRightOf="@+id/cb_redEar"
+        android:text="Yellow" />
+
+    <CheckBox
+        android:id="@+id/cb_greenEar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50px"
+        android:layout_below="@id/cb_redEar"
+        android:text="Green" />
+
+
+    <Button
+        android:id="@+id/btn_goback"
+        android:layout_width="206dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/cb_greenEar"
+        android:layout_marginTop="0dp"
+        android:text="Cancel registration" />
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="210dp"
+        android:layout_height="80dp"
+        android:layout_alignTop="@+id/btn_goback"
+        android:layout_alignBottom="@+id/btn_goback"
+        android:layout_toRightOf="@+id/btn_goback"
+
+        android:text="Confirm" />
+
+</RelativeLayout>
