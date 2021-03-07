@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -21,11 +22,14 @@ public class DriveActivity extends Activity {
     private static final int RC_SIGN_IN = 0;
     SignInButton signIn;
     GoogleSignInClient mGoogleSignInClient;
+    TextView tv_email;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drive);
+        tv_email = findViewById(R.id.tv_email);
+        tv_email.setText("Currently not logged in");
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -79,8 +83,9 @@ public class DriveActivity extends Activity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
-            Intent intent = new Intent(DriveActivity.this, TestDriveActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(DriveActivity.this, TestDriveActivity.class);
+            //startActivity(intent);
+            tv_email.setText("Logged into: " + account.getEmail());
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
