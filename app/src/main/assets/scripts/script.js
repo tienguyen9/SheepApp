@@ -3,6 +3,10 @@ var map = L.map('map');
 var firstPointMarker;
 var currentPositionMarker;
 
+var predatorMarker;
+var predatorMarkerLat;
+var predatorMarkerLon;
+
 var sheepMarker;
 var sheepMarkerLat;
 var sheepMarkerLon;
@@ -83,11 +87,9 @@ function drawLineBetweenPoints(pointA, pointB){
 function moveSheepMarker(startLat, startLon){
     sheepMarker = L.marker([startLat, startLon], {draggable: true}).addTo(map);
     sheepMarker.setOpacity(1);
-    sheepMarker.bindPopup("Drag marker to where you spottet the sheep").openPopup();
-    var coord = String(sheepMarker.getLatLng()).split(',');
+    sheepMarker.bindPopup("Drag marker to where you spotted the sheep").openPopup();
     sheepMarkerLat = startLat;
     sheepMarkerLon = startLon;
-    var newLatLng = new L.LatLng(startLat, startLon);
 
     sheepMarker.on('dragend', function() {
         sheepMarkerLat = sheepMarker.getLatLng().lat;
@@ -95,19 +97,38 @@ function moveSheepMarker(startLat, startLon){
     });
 }
 
-function removeSheepMarker(){
-    map.removeLayer(sheepMarker);
-}
-
 function getSheepMarkerPos(){
     return sheepMarkerLat + "_" + sheepMarkerLon;
 }
 
-
 function hideSheepMarker(){
-    sheepMarker.setOpacity(0);
+    map.removeLayer(sheepMarker)
     sheepMarker.closePopup();
 }
+
+function movePredatorMarker(startLat, startLon){
+    predatorMarker = L.marker([startLat, startLon], {draggable: true}).addTo(map);
+    predatorMarker.setOpacity(1);
+    predatorMarker.bindPopup("Drag marker to where you spotted the predator").openPopup();
+    predatorMarkerLat = startLat;
+    predatorMarkerLon = startLon;
+
+    predatorMarker.on('dragend', function() {
+        predatorMarkerLat = predatorMarker.getLatLng().lat;
+        predatorMarkerLon = predatorMarker.getLatLng().lng;
+    });
+}
+
+function getPredatorMarkerPos(){
+    return predatorMarkerLat + "_" + predatorMarkerLon;
+}
+
+function hidePredatorMarker(){
+    map.removeLayer(predatorMarker)
+    predatorMarker.closePopup();
+}
+
+
 
 function isExistingCircle(){
     for (let i = 0;i < sheepCircles.length;i++) {
@@ -123,9 +144,8 @@ function isExistingCircle(){
         }
 }
 }
-
+//for offline activity
 function registerSheepPointMarker(sheepID){
-    alert("ASGDBSSDB")
     var circle = L.circle([sheepMarkerLat, sheepMarkerLon], {
         color: 'red',
         fillColor: '#f03',
@@ -140,8 +160,8 @@ function registerSheepPointMarker(sheepID){
     }
 
 
+//for past trips
 function registerSheepPointLatLng(lat, lon){
-console.log("AAAAAAAAA");
 var circle = L.circle([lat, lon], {
     color: 'red',
     fillColor: '#f03',
@@ -151,6 +171,30 @@ var circle = L.circle([lat, lon], {
     var point = new L.LatLng(lat, lon);
     return point;
 }
+
+//for offline activity
+function registerPredatorPointMarker(){
+var circle = L.circle([predatorMarkerLat, predatorMarkerLon], {
+    color: 'black',
+    fillColor: 'black',
+    fillOpacity: 1,
+    radius: 40
+}).addTo(map);
+    return point;
+}
+
+//for past trips
+function registerPredatorPointLatLng(lat, lon){
+var circle = L.circle([lat, lon], {
+    color: 'black',
+    fillColor: 'black',
+    fillOpacity: 1,
+    radius: 40
+}).addTo(map);
+    var point = new L.LatLng(lat, lon);
+    return point;
+}
+
 
 //for OfflineMapActivity
 function drawLineSheepPositionPoint(lastPoint, sheepLat, sheepLon) {

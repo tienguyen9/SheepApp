@@ -28,7 +28,7 @@ public class OfflineMapActivity extends MapActivity {
 
     WebView webView;
     TextView tv_lat, tv_lon;
-    Button btn_trackPath, btn_sheepMarker, btn_cancelSheepMarking;
+    Button btn_trackPath, btn_sheepMarker, btn_predatorMarker;
     ArrayList<double[]> footprintPoints = new ArrayList<>();
     ArrayList<String> footprintLabels = new ArrayList<>();
 
@@ -41,6 +41,7 @@ public class OfflineMapActivity extends MapActivity {
     double longitude;
     boolean trackingPath;
     boolean showingSheepMarker;
+    boolean showingPredatorMarker;
     boolean initialLoad;
 
     double latSheep;
@@ -80,8 +81,8 @@ public class OfflineMapActivity extends MapActivity {
         btn_trackPath = findViewById(R.id.btn_trackPath);
         btn_sheepMarker = findViewById(R.id.btn_sheepMarker);
         btn_sheepMarker.setVisibility(View.GONE);
-        btn_cancelSheepMarking = findViewById(R.id.btn_cancelSheepMarking);
-        btn_cancelSheepMarking.setVisibility(View.GONE);
+        btn_predatorMarker = findViewById(R.id.btn_predatorMarker);
+        btn_predatorMarker.setVisibility((View.GONE));
         trackingPath = false;
         showingSheepMarker = false;
         initialLoad = true;
@@ -113,19 +114,37 @@ public class OfflineMapActivity extends MapActivity {
 
                 if(showingSheepMarker){
                     Intent registerIntent = new Intent(getApplicationContext(), RegisterSheepActivity.class);
-                        registerIntent.putExtra("existing", 0);
-                        startActivityForResult(registerIntent, Constants.REQUEST_ACTIVITY_CODE);
-                }else{
+                    registerIntent.putExtra("existing", 0);
+                    startActivityForResult(registerIntent, Constants.SHEEP_REQUEST_ACTIVITY_CODE);
+                    Log.d("click", "D");
+                } else if (showingPredatorMarker) {
+                    hidePredatorMarker();
+                    Log.d("click", "E");
+                }
+                else{
                     showSheepMarker();
+                    Log.d("click", "F");
                 }
 
             }
         });
 
-        btn_cancelSheepMarking.setOnClickListener(new View.OnClickListener() {
+        btn_predatorMarker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideSheepMarker();
+                if(showingPredatorMarker) {
+                    Intent registerIntent = new Intent(getApplicationContext(), RegisterPredatorActivity.class);
+                    startActivityForResult(registerIntent, Constants.PREDATOR_REQUEST_ACTIVITY_CODE);
+                    Log.d("click", "A");
+                } else if(showingSheepMarker) {
+                    hideSheepMarker();
+                    Log.d("click", "B");
+                }
+                else {
+                    showPredatorMarker();
+                    Log.d("click", "C");
+                }
+
             }
         });
 
@@ -162,12 +181,13 @@ public class OfflineMapActivity extends MapActivity {
             registerIntent.putExtra("yellow_ties", existingSheepData[4]);
             registerIntent.putExtra("green_ties", existingSheepData[5]);
             registerIntent.putExtra("blue_ties", existingSheepData[6]);
-            registerIntent.putExtra("red_ear", existingSheepData[7]);
-            registerIntent.putExtra("yellow_ear", existingSheepData[8]);
-            registerIntent.putExtra("green_ear", existingSheepData[9]);
+            registerIntent.putExtra("no_ties", existingSheepData[7]);
+            registerIntent.putExtra("red_ear", existingSheepData[8]);
+            registerIntent.putExtra("yellow_ear", existingSheepData[9]);
+            registerIntent.putExtra("green_ear", existingSheepData[10]);
             registerIntent.putExtra("existing", 1);
             registerIntent.putExtra("sheepID", sheepID);
-            startActivityForResult(registerIntent, Constants.REQUEST_ACTIVITY_CODE);
+            startActivityForResult(registerIntent, Constants.SHEEP_REQUEST_ACTIVITY_CODE);
         }
     }
 
@@ -176,8 +196,7 @@ public class OfflineMapActivity extends MapActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == Constants.REQUEST_ACTIVITY_CODE) {
+        if (requestCode == Constants.SHEEP_REQUEST_ACTIVITY_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 sheepNumbers = data.getIntArrayExtra("SheepNumbers");
                 tieNumbers = data.getIntArrayExtra("TieNumbers");
@@ -193,11 +212,14 @@ public class OfflineMapActivity extends MapActivity {
                 }
 
                 hideSheepMarker();
-
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                Log.d("Result", "canceled");
+        } else if (requestCode == Constants.PREDATOR_REQUEST_ACTIVITY_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                String predatorType = data.getStringExtra("PredatorType");
+                registerPredator(predatorType);
             }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            Log.d("Result", "canceled");
         }
     }
 
@@ -293,6 +315,7 @@ public class OfflineMapActivity extends MapActivity {
             tripRegisteredInDB = true;
         }
         btn_sheepMarker.setVisibility(View.VISIBLE);
+        btn_predatorMarker.setVisibility(View.VISIBLE);
         addFootprintPoint();
         Toast.makeText(this, "Started tracking path", Toast.LENGTH_LONG).show();
 
@@ -306,25 +329,15 @@ public class OfflineMapActivity extends MapActivity {
         btn_trackPath.setText("Resume tracking");
     }
 
-
     private void showSheepMarker() {
         showingSheepMarker = true;
-        if (!tripRegisteredInDB) {
-            databaseHelper = new DatabaseHelper(getApplicationContext());
-            mapID = databaseHelper.getMapID(folder);
-            databaseHelper.addTrip(mapID);
-            tripID = databaseHelper.getLastTripID();
-            Log.d("trip", Integer.toString(tripID) + ": TRIP ID");
-            tripRegisteredInDB = true;
-        }
-
         if (latitude != 0.0 && longitude != 0.0){
             Constants.runJavascript(this, webView, "moveSheepMarker(" + latitude + ", " +  longitude + ")");
         }else{
             Toast.makeText(this, "Wait for location service", Toast.LENGTH_LONG).show();
         }
         btn_sheepMarker.setText("Confirm sheep location");
-        btn_cancelSheepMarking.setVisibility(View.VISIBLE);
+        btn_predatorMarker.setText("Cancel Sheep");
     }
 
 
@@ -332,12 +345,46 @@ public class OfflineMapActivity extends MapActivity {
         showingSheepMarker = false;
         Constants.runJavascript(this, webView, "hideSheepMarker()");
         btn_sheepMarker.setText("Register Sheep");
-        btn_cancelSheepMarking.setVisibility(View.GONE);
+        btn_predatorMarker.setText("Register Predator");
     }
 
+    private void showPredatorMarker() {
+        showingPredatorMarker = true;
+        if (latitude != 0.0 && longitude != 0.0){
+            Constants.runJavascript(this, webView, "movePredatorMarker(" + latitude + ", " +  longitude + ")");
+        }else{
+            Toast.makeText(this, "Wait for location service", Toast.LENGTH_LONG).show();
+        }
+        btn_predatorMarker.setText("Confirm predator location");
+        btn_sheepMarker.setText("Cancel Predator");
+    }
 
+    private void hidePredatorMarker() {
+        showingPredatorMarker = false;
+        Constants.runJavascript(this, webView, "hidePredatorMarker()");
+        btn_predatorMarker.setText("Register Predator");
+        btn_sheepMarker.setText("Register Sheep");
+    }
 
-//TODO finish
+    private void registerPredator(String predatorType) {
+        webView.evaluateJavascript("javascript:getPredatorMarkerPos()",new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String lat_lon_string) {
+                //recieves latitude and longitude as a String with the following format from JS: "63.3923_46.2134"
+                String[] parts = lat_lon_string.split("_");
+
+                double latPredator = Double.parseDouble(parts[0].substring(1));
+                double lonPredator = Double.parseDouble(parts[1].substring(0, parts[1].length()-1));
+
+                Constants.runJavascript(getApplicationContext(), webView, "registerPredatorPointMarker()");
+                databaseHelper.addPredator(latPredator, lonPredator, predatorType, tripID);
+                hidePredatorMarker();
+
+            }
+        });
+        Log.d("RedPRED", "avvb"+predatorType);
+    }
+
     private int registerSheep() {
         final int[] sheepID = new int[1];
         webView.evaluateJavascript("javascript:getSheepMarkerPos()",new ValueCallback<String>() {
@@ -352,25 +399,24 @@ public class OfflineMapActivity extends MapActivity {
                 int totalNumber = sheepNumbers[0];
                 int blackNumber  = sheepNumbers[1];
                 int whiteNumber = sheepNumbers[2];
-                //0 is false, 1 is true
                 int redEarMarkState;
                 int yellowEarMarkState;
                 int greenEarMarkState;
                 if (earMarks[0]) {
-                    redEarMarkState = 0;
-                } else {
                     redEarMarkState = 1;
+                } else {
+                    redEarMarkState = 0;
                 }
                 if (earMarks[1]) {
-                    yellowEarMarkState = 0;
-                } else {
                     yellowEarMarkState = 1;
+                } else {
+                    yellowEarMarkState = 0;
                 }
 
                 if (earMarks[2]) {
-                    greenEarMarkState = 0;
-                } else {
                     greenEarMarkState = 1;
+                } else {
+                    greenEarMarkState = 0;
                 }
                 int[] earMarkStates = {redEarMarkState, yellowEarMarkState, greenEarMarkState};
 
@@ -378,7 +424,7 @@ public class OfflineMapActivity extends MapActivity {
                 Constants.runJavascript(getApplicationContext(), webView, "registerSheepPointMarker(" + sheepID[0] + ")");
                 Constants.runJavascript(getApplicationContext(), webView, "drawLineSheepPositionPoint("
                         + footprintLabels.get(footprintLabels.size()-1) + ", " + latSheep + ", " +  lonSheep + ")");
-                Constants.runJavascript(getApplicationContext(), webView, "removeSheepMarker()");
+                hideSheepMarker();
 
             }
         });
@@ -430,7 +476,7 @@ public class OfflineMapActivity extends MapActivity {
             Toast.makeText(this, "new sheep registering", Toast.LENGTH_SHORT).show();
         } else {
             while (c.moveToNext()) {
-                sheepData= new int[]{c.getInt(4), c.getInt(5), c.getInt(6), c.getInt(7), c.getInt(8), c.getInt(9), c.getInt(10), c.getInt(11), c.getInt(12), c.getInt(13), c.getInt(14)};
+                sheepData= new int[]{c.getInt(4), c.getInt(5), c.getInt(6), c.getInt(7), c.getInt(8), c.getInt(9), c.getInt(10), c.getInt(11), c.getInt(12), c.getInt(13), c.getInt(14), c.getInt(15)};
             }
         }
         return sheepData;

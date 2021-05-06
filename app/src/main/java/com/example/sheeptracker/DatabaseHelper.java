@@ -43,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String SHEEP_YELLOW_TIES = "yellow_ties";
     private static final String SHEEP_GREEN_TIES = "green_ties";
     private static final String SHEEP_BLUE_TIES = "blue_ties";
+    private static final String SHEEP_NO_TIES = "no_ties";
     private static final String SHEEP_RED_EAR = "red_ear";
     private static final String SHEEP_YELLOW_EAR = "yellow_ear";
     private static final String SHEEP_GREEN_EAR = "green_ear";
@@ -53,7 +54,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String SPOTTED_FROM_LATITUDE= "spotted_from_latitude";
     private static final String SPOTTED_FROM_LONGITUDE = "spotted_from_longitude";
 
+    private static final String PREDATOR_TABLE = "Predator_location";
+    private static final String PREDATOR_ID = "predator_id";
+    private static final String PREDATOR_LATITUDE= "latitude";
+    private static final String PREDATOR_LONGITUDE = "longitude";
+    private static final String PREDATOR_TYPE = "type";
 
+
+    //for later
     private static final String SHEEP_TOTAL_CALCULATED = "total_calculated";
 
 
@@ -103,6 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 SHEEP_YELLOW_TIES + " INTEGER DEFAULT 0, " +
                 SHEEP_GREEN_TIES + " INTEGER DEFAULT 0, " +
                 SHEEP_BLUE_TIES + " INTEGER DEFAULT 0, " +
+                SHEEP_NO_TIES + " INTEGER DEFAULT 0, " +
                 SHEEP_RED_EAR + " INTEGER DEFAULT 0, " +
                 SHEEP_YELLOW_EAR + " INTEGER DEFAULT 0, " +
                 SHEEP_GREEN_EAR + " INTEGER DEFAULT 0, " +
@@ -117,11 +126,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 SPOTTED_FROM_LONGITUDE + " INTEGER NOT NULL, " +
                 " FOREIGN KEY (" + SHEEP_ID + ") REFERENCES "+SHEEP_TABLE+"(" + SHEEP_ID + "));";
 
+
+        String query6 = "CREATE TABLE " +
+                PREDATOR_TABLE + " (" +
+                PREDATOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                PREDATOR_TYPE + " TEXT NOT NULL, " +
+                PREDATOR_LATITUDE + " INTEGER NOT NULL, " +
+                PREDATOR_LONGITUDE + " INTEGER NOT NULL, " +
+                TRIP_ID + " INTEGER NOT NULL, " +
+                " FOREIGN KEY (" + TRIP_ID + ") REFERENCES "+TRIP_TABLE+"(" + TRIP_ID + "));";
+
         db.execSQL(query1);
         db.execSQL(query2);
         db.execSQL(query3);
         db.execSQL(query4);
         db.execSQL(query5);
+        db.execSQL(query6);
         Log.d("sdad", "safgfsag");
     }
 
@@ -189,6 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(SHEEP_YELLOW_TIES, tieColors[1]);
         contentValues.put(SHEEP_GREEN_TIES, tieColors[2]);
         contentValues.put(SHEEP_BLUE_TIES, tieColors[3]);
+        contentValues.put(SHEEP_NO_TIES, tieColors[4]);
         contentValues.put(SHEEP_RED_EAR, earMarkColors[0]);
         contentValues.put(SHEEP_YELLOW_EAR, earMarkColors[1]);
         contentValues.put(SHEEP_GREEN_EAR,earMarkColors[2]);
@@ -214,6 +235,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(SHEEP_YELLOW_TIES, tieColors[1]);
             contentValues.put(SHEEP_GREEN_TIES, tieColors[2]);
             contentValues.put(SHEEP_BLUE_TIES, tieColors[3]);
+            contentValues.put(SHEEP_NO_TIES, tieColors[4]);
             contentValues.put(SHEEP_RED_EAR, earMarkColors[0]);
             contentValues.put(SHEEP_YELLOW_EAR, earMarkColors[1]);
             contentValues.put(SHEEP_GREEN_EAR, earMarkColors[2]);
@@ -235,6 +257,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(SPOTTED_FROM_LONGITUDE, longitude);
         contentValues.put(SHEEP_ID, sheep_id);
         db.insert(SHEEP_SPOTTED_FROM, null, contentValues);
+        db.close();
+    }
+
+    public void addPredator(double latitude, double longitude, String predatorType, int tripID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(PREDATOR_LATITUDE, latitude);
+        contentValues.put(PREDATOR_LONGITUDE, longitude);
+        contentValues.put(TRIP_ID, tripID);
+        contentValues.put(PREDATOR_TYPE, predatorType);
+        db.insert(PREDATOR_TABLE, null, contentValues);
         db.close();
     }
 
@@ -335,6 +369,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor readSpottedFromLatLon(int sheepID) {
         String query = "SELECT " + SPOTTED_FROM_LATITUDE + "," + SPOTTED_FROM_LONGITUDE + " FROM " + SHEEP_SPOTTED_FROM + " WHERE " + SHEEP_ID + " = '" + sheepID + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = null;
+        if (db != null) {
+            c= db.rawQuery(query, null);
+        }
+
+        return c;
+    }
+
+    public Cursor readPredatorLatLons() {
+        String query = "SELECT " + PREDATOR_LATITUDE + "," + PREDATOR_LONGITUDE + " FROM " + PREDATOR_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor c = null;

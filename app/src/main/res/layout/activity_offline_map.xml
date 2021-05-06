@@ -7,14 +7,15 @@
     tools:context=".OfflineMapActivity">
 
         <Button
-            android:id="@+id/btn_cancelSheepMarking"
+            android:id="@+id/btn_predatorMarker"
             android:layout_width="123dp"
             android:layout_height="81dp"
             android:layout_marginStart="22dp"
             android:layout_marginTop="24dp"
-            android:text="Cancel"
+            android:text="Register predator"
             app:layout_constraintStart_toEndOf="@+id/btn_sheepMarker"
             app:layout_constraintTop_toTopOf="parent" />
+
 
         <Button
             android:id="@+id/btn_sheepMarker"

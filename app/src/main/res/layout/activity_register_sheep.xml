@@ -306,10 +306,51 @@
         android:text="-" />
 
     <TextView
-        android:id="@+id/tv_earMarkHeader"
+        android:id="@+id/tv_noTiesHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/et_blueTies"
+        android:layout_marginTop="30px"
+        android:text="Number of sheep without ties spotted" />
+
+    <EditText
+        android:id="@+id/et_noTies"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_noTiesHeader"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:text="0"
+        android:textColor="@android:color/background_dark"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_increaseNoTies"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_noTiesHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/et_noTies"
+        android:onClick="increaseNoTies"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/btn_decreaseNoTies"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="20px"
+        android:layout_below="@id/tv_noTiesHeader"
+        android:layout_marginTop="-6dp"
+        android:layout_toRightOf="@+id/btn_increaseNoTies"
+        android:onClick="decreaseNoTies"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/tv_earMarkHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_noTies"
         android:layout_marginTop="50px"
         android:text="Which ear marks did you see?" />
 
@@ -333,8 +374,9 @@
         android:id="@+id/cb_greenEar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50px"
-        android:layout_below="@id/cb_redEar"
+        android:layout_marginLeft="100px"
+        android:layout_below="@id/tv_earMarkHeader"
+        android:layout_toRightOf="@+id/cb_yellowEar"
         android:text="Green" />
 
 

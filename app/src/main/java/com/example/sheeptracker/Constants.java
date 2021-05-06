@@ -9,11 +9,12 @@ public class Constants {
     static final int LOCATION_SERVICE_ID = 175;
     static final String START_LOCATION_SERVICE = "startLocationService";
     static final String STOP_LOCATION_SERVICE = "stopLocationService";
-    static final int DEFAULT_UPDATE_INTERVAL = 25;
-    static final int FAST_UPDATE_INTERTVAL = 20;
-    static final int REQUEST_ACTIVITY_CODE = 100;
+    //TODO Set to 25 after development
+    static final int DEFAULT_UPDATE_INTERVAL = 3;
+    static final int FAST_UPDATE_INTERTVAL = 3;
+    static final int PREDATOR_REQUEST_ACTIVITY_CODE = 99;
+    static final int SHEEP_REQUEST_ACTIVITY_CODE = 100;
     static final int REQUEST_LOCATION_CODE = 101;
-    static final int REQUEST_READ_FILE_CODE = 102;
     static final String[] earMarkColors = {"Red", "Blue", "Green", "Yellow"};
 
     //Runs javascript without callback

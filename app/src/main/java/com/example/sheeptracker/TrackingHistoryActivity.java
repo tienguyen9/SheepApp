@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class TrackingHistoryActivity extends AppCompatActivity {
     int tripID;
     DatabaseHelper databaseHelper;
-    ArrayList<double[]> footprints, sheepMarkers;
+    ArrayList<double[]> footprints, sheepMarkers, predatorMarkers;
     WebView webView;
     double NW_lat, NW_lon, SE_lat, SE_lon;
 
@@ -31,9 +31,11 @@ public class TrackingHistoryActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
         footprints = new ArrayList<>();
         sheepMarkers = new ArrayList<>();
+        predatorMarkers = new ArrayList<>();
 
         fillFootprintList();
         fillSheepMarkerList();
+        fillPredatorMarkerList();
         fillMapLatLngs();
 
         final double centerLat = Constants.getCenterCoordinate(NW_lat, SE_lat);
@@ -74,6 +76,11 @@ public class TrackingHistoryActivity extends AppCompatActivity {
                     }
                 }
 
+                for (double[] p : predatorMarkers) {
+                    Log.d("asdsd", p[0] + " " + p[1]);
+                    Constants.runJavascript(getApplicationContext(), webView, "registerPredatorPointLatLng(" + p[0] + ", " + p[1] + ")");
+                }
+
             }
         });
 
@@ -101,6 +108,19 @@ public class TrackingHistoryActivity extends AppCompatActivity {
                 //id, lat, lon
                 double[] sheepMarker = {c.getDouble(0), c.getDouble(1), c.getDouble(2)};
                 sheepMarkers.add(sheepMarker);
+            }
+        }
+    }
+
+    private void fillPredatorMarkerList() {
+        Cursor c = databaseHelper.readPredatorLatLons();
+        if (c.getCount() == 0 ) {
+            Toast.makeText(this, "No predators registered", Toast.LENGTH_SHORT).show();
+        } else {
+            while (c.moveToNext()) {
+                //lat, lon
+                double[] sheepMarker = {c.getDouble(0), c.getDouble(1)};
+                predatorMarkers.add(sheepMarker);
             }
         }
     }
