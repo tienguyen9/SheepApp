@@ -28,7 +28,7 @@ public class OfflineMapActivity extends MapActivity {
 
     WebView webView;
     TextView tv_lat, tv_lon;
-    Button btn_trackPath, btn_sheepMarker, btn_predatorMarker;
+    Button btn_trackPath, btn_sheepMarker, btn_predatorMarker, btn_deadSheep;
     ArrayList<double[]> footprintPoints = new ArrayList<>();
     ArrayList<String> footprintLabels = new ArrayList<>();
 
@@ -83,6 +83,8 @@ public class OfflineMapActivity extends MapActivity {
         btn_sheepMarker.setVisibility(View.GONE);
         btn_predatorMarker = findViewById(R.id.btn_predatorMarker);
         btn_predatorMarker.setVisibility((View.GONE));
+        btn_deadSheep = findViewById(R.id.btn_deadSheep);
+        btn_deadSheep.setVisibility((View.GONE));
         trackingPath = false;
         showingSheepMarker = false;
         initialLoad = true;
@@ -126,6 +128,13 @@ public class OfflineMapActivity extends MapActivity {
                     Log.d("click", "F");
                 }
 
+            }
+        });
+
+        btn_deadSheep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerDeadSheep();
             }
         });
 
@@ -336,6 +345,7 @@ public class OfflineMapActivity extends MapActivity {
         }else{
             Toast.makeText(this, "Wait for location service", Toast.LENGTH_LONG).show();
         }
+        btn_deadSheep.setVisibility(View.VISIBLE);
         btn_sheepMarker.setText("Confirm sheep location");
         btn_predatorMarker.setText("Cancel Sheep");
     }
@@ -344,6 +354,7 @@ public class OfflineMapActivity extends MapActivity {
     private void hideSheepMarker() {
         showingSheepMarker = false;
         Constants.runJavascript(this, webView, "hideSheepMarker()");
+        btn_deadSheep.setVisibility(View.GONE);
         btn_sheepMarker.setText("Register Sheep");
         btn_predatorMarker.setText("Register Predator");
     }
@@ -383,6 +394,24 @@ public class OfflineMapActivity extends MapActivity {
             }
         });
         Log.d("RedPRED", "avvb"+predatorType);
+    }
+
+    private void registerDeadSheep() {
+        webView.evaluateJavascript("javascript:getSheepMarkerPos()",new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String lat_lon_string) {
+                //recieves latitude and longitude as a String with the following format from JS: "63.3923_46.2134"
+                String[] parts = lat_lon_string.split("_");
+
+                double latDeadSheep = Double.parseDouble(parts[0].substring(1));
+                double lonDeadSheep = Double.parseDouble(parts[1].substring(0, parts[1].length()-1));
+
+                Constants.runJavascript(getApplicationContext(), webView, "registerDeadPointMarker()");
+                databaseHelper.addDeadSheep(latDeadSheep, lonDeadSheep, tripID);
+                hideSheepMarker();
+
+            }
+        });
     }
 
     private int registerSheep() {

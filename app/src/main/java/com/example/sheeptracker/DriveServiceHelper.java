@@ -1,5 +1,7 @@
 package com.example.sheeptracker;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.api.client.http.FileContent;
@@ -8,6 +10,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -19,27 +22,40 @@ public class DriveServiceHelper {
         this.driveService = driveService;
     }
 
-    public Task<String> createFilePDF(String filePath) {
+    //use fileID=null if uploading for the first time
+    public Task<String> uploadDBtoDrive(String filePath, DatabaseHelper databaseHelper) {
         return Tasks.call(executor, () -> {
-
             File fileMetaData = new File();
-            fileMetaData.setName("myFile");
+            fileMetaData.setName("TrackHistory.db");
 
-            java.io.File file = new java.io.File(filePath);
+            java.io.File fileContent = new java.io.File(filePath);
 
-            FileContent mediaContent = new FileContent("application/pdf", file);
-            File myFile = null;
+            FileContent mediaContent = new FileContent("application/db", fileContent);
+            File myFile = new File();
+            String fileID = databaseHelper.getDriveID();
+            if(fileID != null) {
+                try{
+                    myFile = driveService.files().update(fileID, myFile, mediaContent).execute();
 
-            try{
-                myFile = driveService.files().create(fileMetaData, mediaContent).execute();
-            }catch (Exception e) {
-                e.printStackTrace();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try{
+                    myFile = driveService.files().create(fileMetaData, mediaContent).execute();
+                    fileID = myFile.getId();
+                    databaseHelper.addDrive(fileID);
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
 
             if (myFile == null){
                 throw new IOException("sda");
             }
-            return myFile.getId();
+            Log.d("FILEID", myFile.getId() + "___");
+            return fileID;
         });
     }
 

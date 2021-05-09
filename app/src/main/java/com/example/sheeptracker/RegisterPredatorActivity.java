@@ -68,17 +68,6 @@ public class RegisterPredatorActivity extends AppCompatActivity {
                     setResult(Activity.RESULT_OK, outIntent);
                     finish();
 
-                    /*
-                    RadioButton radioButton
-                            = (RadioButton)radioGroup
-                            .findViewById(selectedId);
-
-                    Toast.makeText(RegisterPredatorActivity.this,
-                            radioButton.getText(),
-                            Toast.LENGTH_SHORT)
-                            .show();
-
-                     */
                 }
             }
         });

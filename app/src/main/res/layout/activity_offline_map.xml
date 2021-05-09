@@ -9,9 +9,9 @@
         <Button
             android:id="@+id/btn_predatorMarker"
             android:layout_width="123dp"
-            android:layout_height="81dp"
+            android:layout_height="70dp"
             android:layout_marginStart="22dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="35dp"
             android:text="Register predator"
             app:layout_constraintStart_toEndOf="@+id/btn_sheepMarker"
             app:layout_constraintTop_toTopOf="parent" />
@@ -20,9 +20,9 @@
         <Button
             android:id="@+id/btn_sheepMarker"
             android:layout_width="123dp"
-            android:layout_height="81dp"
+            android:layout_height="70dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="35dp"
             android:text="Register sheep"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -31,12 +31,27 @@
         <Button
             android:id="@+id/btn_trackPath"
             android:layout_width="123dp"
-            android:layout_height="81dp"
+            android:layout_height="70dp"
             android:layout_marginEnd="32dp"
+            android:layout_marginTop="10dp"
             android:text="Start Tracking"
             app:layout_constraintEnd_toStartOf="@+id/btn_sheepMarker"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_labellat" />
+
+        <Button
+            android:id="@+id/btn_deadSheep"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="41dp"
+            android:layout_marginEnd="83dp"
+            android:layout_marginBottom="5dp"
+            android:text="Confirm dead sheep"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_sheepMarker"
+            app:layout_constraintEnd_toStartOf="@+id/tv_labellon"
+            app:layout_constraintStart_toEndOf="@+id/btn_trackPath"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <WebView
             android:id="@+id/webview"
@@ -66,18 +81,29 @@
             android:id="@+id/tv_labellon"
             android:layout_width="35dp"
             android:layout_height="22dp"
-            android:layout_marginStart="128dp"
-            android:text="lon:"
-            app:layout_constraintStart_toEndOf="@+id/tv_lat"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="3dp"
+            android:text="Lon:"
+            app:layout_constraintBottom_toTopOf="@+id/btn_predatorMarker"
+            app:layout_constraintStart_toEndOf="@+id/btn_deadSheep"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_lon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="3dp"
             android:text="0.00"
+            app:layout_constraintBottom_toTopOf="@+id/btn_predatorMarker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/tv_labellon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -60,6 +60,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String PREDATOR_LONGITUDE = "longitude";
     private static final String PREDATOR_TYPE = "type";
 
+    private static final String DRIVE_TABLE = "Drive";
+    private static final String DRIVE_ID = "drive_id";
+
+    private static final String DEAD_SHEEP_TABLE = "Dead_sheep";
+    private static final String DEAD_SHEEP_ID = "dead_sheep_id";
+    private static final String DEAD_SHEEP_LATITUDE = "dead_sheep_latitude";
+    private static final String DEAD_SHEEP_LONGITUDE = "dead_sheep_longitude";
+
 
     //for later
     private static final String SHEEP_TOTAL_CALCULATED = "total_calculated";
@@ -136,12 +144,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TRIP_ID + " INTEGER NOT NULL, " +
                 " FOREIGN KEY (" + TRIP_ID + ") REFERENCES "+TRIP_TABLE+"(" + TRIP_ID + "));";
 
+        String query7 = "CREATE TABLE " +
+                DRIVE_TABLE + " (" +
+                DRIVE_ID + " TEXT PRIMARY KEY);";
+
+        String query8 = "CREATE TABLE " +
+                DEAD_SHEEP_TABLE + " (" +
+                DEAD_SHEEP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DEAD_SHEEP_LATITUDE + " INTEGER NOT NULL, " +
+                DEAD_SHEEP_LONGITUDE + " INTEGER NOT NULL, " +
+                TRIP_ID + " INTEGER NOT NULL, " +
+                " FOREIGN KEY (" + TRIP_ID + ") REFERENCES "+TRIP_TABLE+"(" + TRIP_ID + "));";
+
         db.execSQL(query1);
         db.execSQL(query2);
         db.execSQL(query3);
         db.execSQL(query4);
         db.execSQL(query5);
         db.execSQL(query6);
+        db.execSQL(query7);
+        db.execSQL(query8);
         Log.d("sdad", "safgfsag");
     }
 
@@ -272,7 +294,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void removeDriveRows() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ DRIVE_TABLE);
+    }
 
+    public void addDrive(String driveID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        //Clear the table. The table should contain either one or zero records at all times.
+        db.execSQL("delete from "+ DRIVE_TABLE);
+
+        contentValues.put(DRIVE_ID, driveID);
+        db.insert(DRIVE_TABLE, null, contentValues);
+        db.close();
+    }
+
+    public void addDeadSheep(double latitude, double longitude, int tripID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(DEAD_SHEEP_LATITUDE, latitude);
+        contentValues.put(DEAD_SHEEP_LONGITUDE, longitude);
+        contentValues.put(TRIP_ID, tripID);
+        db.insert(DEAD_SHEEP_TABLE, null, contentValues);
+        Log.d("HEIHEIH", "SADASD");
+        db.close();
+    }
+
+
+    public String getDriveID(){
+        String DriveID = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT " + DRIVE_ID + " FROM " + DRIVE_TABLE;
+        Cursor c = db.rawQuery(selectQuery, null);
+        if (c.moveToFirst()) {
+            DriveID = c.getString(c.getColumnIndex(DRIVE_ID));
+        }
+        return DriveID;
+    }
 
     public int getMapID(String mapString) {
         int mapID = -1;
@@ -379,8 +440,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
-    public Cursor readPredatorLatLons() {
-        String query = "SELECT " + PREDATOR_LATITUDE + "," + PREDATOR_LONGITUDE + " FROM " + PREDATOR_TABLE;
+    public Cursor readPredatorLatLons(int tripID) {
+        String query = "SELECT " + PREDATOR_LATITUDE + "," + PREDATOR_LONGITUDE + " FROM " + PREDATOR_TABLE + " WHERE " + TRIP_ID + " = '" + tripID + "'";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor c = null;
@@ -393,6 +454,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor readMapData(int mapID) {
         String query = "SELECT * FROM " + MAP_TABLE + " WHERE " + MAP_ID + " = '" + mapID + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = null;
+        if (db != null) {
+            c= db.rawQuery(query, null);
+        }
+        return c;
+    }
+
+    public Cursor readDeadSheepData(int tripID) {
+        String query = "SELECT * FROM " + DEAD_SHEEP_TABLE + " WHERE " + TRIP_ID + " = '" + tripID + "'";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor c = null;

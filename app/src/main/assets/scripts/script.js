@@ -173,6 +173,34 @@ var circle = L.circle([lat, lon], {
 }
 
 //for offline activity
+function registerDeadPointMarker(sheepID){
+    var circle = L.circle([sheepMarkerLat, sheepMarkerLon], {
+        color: 'purple',
+        fillColor: 'purple',
+        fillOpacity: 0.5,
+        radius: sheepCircleRadius
+    }).addTo(map);
+    sheepCircles[sheepID] = circle;
+    circle.on('click', function (e) {
+        alert("Hello, circle!" + sheepID);
+        AndroidFunction.editSheepRegister(sheepID);
+    });
+    }
+
+
+//for past trips
+function registerDeadPointLatLng(lat, lon){
+var circle = L.circle([lat, lon], {
+    color: 'purple',
+    fillColor: 'purple',
+    fillOpacity: 0.5,
+    radius: sheepCircleRadius
+}).addTo(map);
+    var point = new L.LatLng(lat, lon);
+    return point;
+}
+
+//for offline activity
 function registerPredatorPointMarker(){
 var circle = L.circle([predatorMarkerLat, predatorMarkerLon], {
     color: 'black',

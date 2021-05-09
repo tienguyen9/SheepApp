@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class TrackingHistoryActivity extends AppCompatActivity {
     int tripID;
     DatabaseHelper databaseHelper;
-    ArrayList<double[]> footprints, sheepMarkers, predatorMarkers;
+    ArrayList<double[]> footprints, sheepMarkers, predatorMarkers, deadSheepMarkers;
     WebView webView;
     double NW_lat, NW_lon, SE_lat, SE_lon;
 
@@ -32,11 +32,13 @@ public class TrackingHistoryActivity extends AppCompatActivity {
         footprints = new ArrayList<>();
         sheepMarkers = new ArrayList<>();
         predatorMarkers = new ArrayList<>();
+        deadSheepMarkers = new ArrayList<>();
 
         fillFootprintList();
         fillSheepMarkerList();
         fillPredatorMarkerList();
         fillMapLatLngs();
+        fillDeadSheepMarkerList();
 
         final double centerLat = Constants.getCenterCoordinate(NW_lat, SE_lat);
         final double centerLon = Constants.getCenterCoordinate(NW_lon, SE_lon);
@@ -66,7 +68,6 @@ public class TrackingHistoryActivity extends AppCompatActivity {
                 }
 
                 for (double[] s : sheepMarkers) {
-                    Log.d("asdsd", s[0] + " " + s[1] + " " + s[2]);
                     Constants.runJavascript(getApplicationContext(), webView, "registerSheepPointLatLng(" + s[1] + ", " + s[2] + ")");
                     int sheepID = (int) Math.round(s[0]);
                     Cursor c = databaseHelper.readSpottedFromLatLon(sheepID);
@@ -77,8 +78,11 @@ public class TrackingHistoryActivity extends AppCompatActivity {
                 }
 
                 for (double[] p : predatorMarkers) {
-                    Log.d("asdsd", p[0] + " " + p[1]);
                     Constants.runJavascript(getApplicationContext(), webView, "registerPredatorPointLatLng(" + p[0] + ", " + p[1] + ")");
+                }
+
+                for (double[] d : deadSheepMarkers) {
+                    Constants.runJavascript(getApplicationContext(), webView, "registerDeadPointLatLng(" + d[0] + ", " + d[1] + ")");
                 }
 
             }
@@ -113,7 +117,7 @@ public class TrackingHistoryActivity extends AppCompatActivity {
     }
 
     private void fillPredatorMarkerList() {
-        Cursor c = databaseHelper.readPredatorLatLons();
+        Cursor c = databaseHelper.readPredatorLatLons(tripID);
         if (c.getCount() == 0 ) {
             Toast.makeText(this, "No predators registered", Toast.LENGTH_SHORT).show();
         } else {
@@ -121,6 +125,18 @@ public class TrackingHistoryActivity extends AppCompatActivity {
                 //lat, lon
                 double[] sheepMarker = {c.getDouble(0), c.getDouble(1)};
                 predatorMarkers.add(sheepMarker);
+            }
+        }
+    }
+
+    private void fillDeadSheepMarkerList() {
+        Cursor c = databaseHelper.readDeadSheepData(tripID);
+        if (c.getCount() == 0 ) {
+            Toast.makeText(this, "No footprints registered", Toast.LENGTH_SHORT).show();
+        } else {
+            while (c.moveToNext()) {
+                double[] deadSheepMarker = {c.getDouble(1), c.getDouble(2)};
+                deadSheepMarkers.add(deadSheepMarker);
             }
         }
     }
