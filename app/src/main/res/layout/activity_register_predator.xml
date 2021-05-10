@@ -28,8 +28,8 @@
         <RadioButton
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/radio_bear"
-            android:text="Bear"
+            android:id="@+id/radio_wolf"
+            android:text="Wolf"
             android:textSize="20dp"/>
 
         <RadioButton

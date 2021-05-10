@@ -190,10 +190,9 @@ public class OfflineMapActivity extends MapActivity {
             registerIntent.putExtra("yellow_ties", existingSheepData[4]);
             registerIntent.putExtra("green_ties", existingSheepData[5]);
             registerIntent.putExtra("blue_ties", existingSheepData[6]);
-            registerIntent.putExtra("no_ties", existingSheepData[7]);
-            registerIntent.putExtra("red_ear", existingSheepData[8]);
-            registerIntent.putExtra("yellow_ear", existingSheepData[9]);
-            registerIntent.putExtra("green_ear", existingSheepData[10]);
+            registerIntent.putExtra("red_ear", existingSheepData[7]);
+            registerIntent.putExtra("yellow_ear", existingSheepData[8]);
+            registerIntent.putExtra("green_ear", existingSheepData[9]);
             registerIntent.putExtra("existing", 1);
             registerIntent.putExtra("sheepID", sheepID);
             startActivityForResult(registerIntent, Constants.SHEEP_REQUEST_ACTIVITY_CODE);
@@ -505,7 +504,7 @@ public class OfflineMapActivity extends MapActivity {
             Toast.makeText(this, "new sheep registering", Toast.LENGTH_SHORT).show();
         } else {
             while (c.moveToNext()) {
-                sheepData= new int[]{c.getInt(4), c.getInt(5), c.getInt(6), c.getInt(7), c.getInt(8), c.getInt(9), c.getInt(10), c.getInt(11), c.getInt(12), c.getInt(13), c.getInt(14), c.getInt(15)};
+                sheepData= new int[]{c.getInt(4), c.getInt(5), c.getInt(6), c.getInt(7), c.getInt(8), c.getInt(9), c.getInt(10), c.getInt(11), c.getInt(12), c.getInt(13), c.getInt(14)};
             }
         }
         return sheepData;

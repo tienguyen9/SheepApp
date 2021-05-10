@@ -16,7 +16,7 @@ import android.widget.TextView;
 public class RegisterSheepActivity extends AppCompatActivity {
 
     Button btn_goBack, btn_confirm;
-    EditText et_totalSheep, et_blackSheep, et_whiteSheep, et_redTies, et_yellowTies, et_greenTies, et_blueTies, et_noTies;
+    EditText et_totalSheep, et_blackSheep, et_whiteSheep, et_redTies, et_yellowTies, et_greenTies, et_blueTies;
     TextView tv_header;
     CheckBox cb_redEar, cb_yellowEar, cb_greenEar;
     int totalSheep;
@@ -26,7 +26,6 @@ public class RegisterSheepActivity extends AppCompatActivity {
     int yellowTies;
     int greenTies;
     int blueTies;
-    int noTies;
     int redEar;
     int yellowEar;
     int greenEar;
@@ -45,7 +44,6 @@ public class RegisterSheepActivity extends AppCompatActivity {
         et_yellowTies = findViewById(R.id.et_yellowTies);
         et_greenTies = findViewById(R.id.et_greenTies);
         et_blueTies = findViewById(R.id.et_blueTies);
-        et_noTies = findViewById(R.id.et_noTies);
         cb_redEar = findViewById(R.id.cb_redEar);
         cb_yellowEar = findViewById(R.id.cb_yellowEar);
         cb_greenEar = findViewById(R.id.cb_greenEar);
@@ -59,7 +57,6 @@ public class RegisterSheepActivity extends AppCompatActivity {
         yellowTies = intent.getIntExtra("yellow_ties", 0);
         greenTies = intent.getIntExtra("green_ties", 0);
         blueTies = intent.getIntExtra("blue_ties", 0);
-        noTies = intent.getIntExtra("no_ties", 0);
         redEar = intent.getIntExtra("red_ear", 0);
         yellowEar = intent.getIntExtra("yellow_ear", 0);
         greenEar = intent.getIntExtra("green_ear", 0);
@@ -77,7 +74,6 @@ public class RegisterSheepActivity extends AppCompatActivity {
             et_yellowTies.setText(String.valueOf(yellowTies));
             et_greenTies.setText(String.valueOf(greenTies));
             et_blueTies.setText(String.valueOf(blueTies));
-            et_noTies.setText(String.valueOf(noTies));
             if(redEar == 1) {
                 cb_redEar.setChecked(true);
             }
@@ -162,16 +158,6 @@ public class RegisterSheepActivity extends AppCompatActivity {
             }
         });
 
-        et_blueTies.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                noTies = Integer.parseInt(s.toString());
-            }
-        });
-
         btn_goBack = findViewById(R.id.btn_goback);
         btn_confirm = findViewById(R.id.btn_confirm);
         btn_goBack.setOnClickListener(new View.OnClickListener(){
@@ -186,7 +172,7 @@ public class RegisterSheepActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 int[] sheepNumbers = {totalSheep, blackSheep, whiteSheep};
-                int[] tieNumbers = {redTies, yellowTies, greenTies, blueTies, noTies};
+                int[] tieNumbers = {redTies, yellowTies, greenTies, blueTies};
                 boolean[] earMarks = {cb_redEar.isChecked(), cb_yellowEar.isChecked(), cb_greenEar.isChecked()};
                 Intent outIntent = new Intent();
                 outIntent.putExtra("SheepNumbers", sheepNumbers);
@@ -287,18 +273,6 @@ public class RegisterSheepActivity extends AppCompatActivity {
         if (blueTies > 0) {
             blueTies--;
             et_blueTies.setText(Integer.toString(blueTies));
-        }
-    }
-
-    public void increaseNoTies(View v) {
-        noTies++;
-        et_noTies.setText(Integer.toString(noTies));
-    }
-
-    public void decreaseNoTies(View v) {
-        if (noTies > 0) {
-            noTies--;
-            et_noTies.setText(Integer.toString(noTies));
         }
     }
 

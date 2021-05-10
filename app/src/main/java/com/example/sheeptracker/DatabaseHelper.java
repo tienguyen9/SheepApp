@@ -43,7 +43,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String SHEEP_YELLOW_TIES = "yellow_ties";
     private static final String SHEEP_GREEN_TIES = "green_ties";
     private static final String SHEEP_BLUE_TIES = "blue_ties";
-    private static final String SHEEP_NO_TIES = "no_ties";
     private static final String SHEEP_RED_EAR = "red_ear";
     private static final String SHEEP_YELLOW_EAR = "yellow_ear";
     private static final String SHEEP_GREEN_EAR = "green_ear";
@@ -119,7 +118,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 SHEEP_YELLOW_TIES + " INTEGER DEFAULT 0, " +
                 SHEEP_GREEN_TIES + " INTEGER DEFAULT 0, " +
                 SHEEP_BLUE_TIES + " INTEGER DEFAULT 0, " +
-                SHEEP_NO_TIES + " INTEGER DEFAULT 0, " +
                 SHEEP_RED_EAR + " INTEGER DEFAULT 0, " +
                 SHEEP_YELLOW_EAR + " INTEGER DEFAULT 0, " +
                 SHEEP_GREEN_EAR + " INTEGER DEFAULT 0, " +
@@ -231,7 +229,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(SHEEP_YELLOW_TIES, tieColors[1]);
         contentValues.put(SHEEP_GREEN_TIES, tieColors[2]);
         contentValues.put(SHEEP_BLUE_TIES, tieColors[3]);
-        contentValues.put(SHEEP_NO_TIES, tieColors[4]);
         contentValues.put(SHEEP_RED_EAR, earMarkColors[0]);
         contentValues.put(SHEEP_YELLOW_EAR, earMarkColors[1]);
         contentValues.put(SHEEP_GREEN_EAR,earMarkColors[2]);
@@ -257,7 +254,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(SHEEP_YELLOW_TIES, tieColors[1]);
             contentValues.put(SHEEP_GREEN_TIES, tieColors[2]);
             contentValues.put(SHEEP_BLUE_TIES, tieColors[3]);
-            contentValues.put(SHEEP_NO_TIES, tieColors[4]);
             contentValues.put(SHEEP_RED_EAR, earMarkColors[0]);
             contentValues.put(SHEEP_YELLOW_EAR, earMarkColors[1]);
             contentValues.put(SHEEP_GREEN_EAR, earMarkColors[2]);
