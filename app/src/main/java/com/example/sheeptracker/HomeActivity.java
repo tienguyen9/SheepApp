@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-
 public class HomeActivity extends AppCompatActivity {
 
     Button btnOnline, btnOffline, btnTest, btnDrive;

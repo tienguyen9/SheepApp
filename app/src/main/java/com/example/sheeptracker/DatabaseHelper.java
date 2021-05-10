@@ -9,6 +9,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
@@ -85,7 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TRIP_TABLE + " (" +
                 TRIP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MAP_ID + " INTEGER NOT NULL, " +
-                TRIP_DATE_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+                TRIP_DATE_TIME + " TEXT NOT NULL, " +
                 " FOREIGN KEY (" + MAP_ID + ") REFERENCES "+MAP_TABLE+"(" + MAP_ID + "));";
 
         String query2 = "CREATE TABLE " +
@@ -197,8 +201,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addTrip(int mapID){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-
+        DateFormat df = new SimpleDateFormat("d MMM yyyy, HH:mm");
+        String date = df.format(Calendar.getInstance().getTime());
         contentValues.put(MAP_ID, mapID);
+        contentValues.put(TRIP_DATE_TIME, date);
         db.insert(TRIP_TABLE, null, contentValues);
         db.close();
     }
