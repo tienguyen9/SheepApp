@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -36,14 +37,20 @@ public class TrackingListActivity extends AppCompatActivity {
         tripRVAdapter = new TripRVAdapter(this, tripIDs, tripMaps, tripDateTimes);
         recyclerView.setAdapter(tripRVAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     private void fillArrayLists() {
         Cursor c = databaseHelper.readTripData();
+        c.moveToLast();
         if (c.getCount() == 0 ) {
             Toast.makeText(this, "No trips registered", Toast.LENGTH_SHORT).show();
         } else {
-            while (c.moveToNext()) {
+            //to include the latest index
+            tripIDs.add(c.getString(0));
+            tripMaps.add(databaseHelper.getMapName(Integer.parseInt(c.getString(1))));
+            tripDateTimes.add(c.getString(2));
+            while (c.moveToPrevious()) {
                 tripIDs.add(c.getString(0));
                 tripMaps.add(databaseHelper.getMapName(Integer.parseInt(c.getString(1))));
                 tripDateTimes.add(c.getString(2));

@@ -398,7 +398,9 @@ public class OfflineMapActivity extends MapActivity {
                 double lonPredator = Double.parseDouble(parts[1].substring(0, parts[1].length()-1));
 
                 Constants.runJavascript(getApplicationContext(), webView, "registerPredatorPointMarker()");
-                databaseHelper.addPredator(latPredator, lonPredator, predatorType, tripID);
+                databaseHelper.addPredator(latPredator, lonPredator, latitude, longitude, predatorType, tripID);
+                Constants.runJavascript(getApplicationContext(), webView, "drawLineAnimalPositionPoint("
+                        + footprintLabels.get(footprintLabels.size()-1) + ", " + latPredator + ", " +  lonPredator + ", 'black')");
                 hidePredatorMarker();
 
             }
@@ -417,7 +419,9 @@ public class OfflineMapActivity extends MapActivity {
                 double lonDeadSheep = Double.parseDouble(parts[1].substring(0, parts[1].length()-1));
 
                 Constants.runJavascript(getApplicationContext(), webView, "registerDeadPointMarker()");
-                databaseHelper.addDeadSheep(latDeadSheep, lonDeadSheep, tripID);
+                Constants.runJavascript(getApplicationContext(), webView, "drawLineAnimalPositionPoint("
+                        + footprintLabels.get(footprintLabels.size()-1) + ", " + latDeadSheep + ", " +  lonDeadSheep + ", 'purple')");
+                databaseHelper.addDeadSheep(latDeadSheep, lonDeadSheep, latitude, longitude, tripID);
                 hideSheepMarker();
 
             }
@@ -461,8 +465,8 @@ public class OfflineMapActivity extends MapActivity {
 
                 sheepID[0] = databaseHelper.addSheep(latSheep, lonSheep, latitude, longitude, totalNumber, blackNumber, whiteNumber, tieNumbers, earMarkStates, tripID);
                 Constants.runJavascript(getApplicationContext(), webView, "registerSheepPointMarker(" + sheepID[0] + ")");
-                Constants.runJavascript(getApplicationContext(), webView, "drawLineSheepPositionPoint("
-                        + footprintLabels.get(footprintLabels.size()-1) + ", " + latSheep + ", " +  lonSheep + ")");
+                Constants.runJavascript(getApplicationContext(), webView, "drawLineAnimalPositionPoint("
+                        + footprintLabels.get(footprintLabels.size()-1) + ", " + latSheep + ", " +  lonSheep + ", 'red')");
                 hideSheepMarker();
 
             }
@@ -503,8 +507,8 @@ public class OfflineMapActivity extends MapActivity {
             markerLon = c.getDouble(2);
         }
         databaseHelper.updateSheep(latitude, longitude, totalNumber, blackNumber, whiteNumber, tieNumbers, earMarkStates, sheepID);
-        Constants.runJavascript(getApplicationContext(), webView, "drawLineSheepPositionLatLng("
-                + markerLat+ ", " + markerLon + ", " + latitude + ", " +  longitude + ")");
+        Constants.runJavascript(getApplicationContext(), webView, "drawAnimalSheepPositionLatLng("
+                + markerLat+ ", " + markerLon + ", " + latitude + ", " +  longitude + "), 'red'");
     }
 
 

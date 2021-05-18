@@ -61,6 +61,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String PREDATOR_ID = "predator_id";
     private static final String PREDATOR_LATITUDE= "latitude";
     private static final String PREDATOR_LONGITUDE = "longitude";
+    private static final String PREDATOR_SPOTTEDFROM_LATITUDE= "spottedfrom_latitude";
+    private static final String PREDATOR_SPOTTEDFROM_LONGITUDE = "spottedfrom_longitude";
+
     private static final String PREDATOR_TYPE = "type";
 
     private static final String DRIVE_TABLE = "Drive";
@@ -70,6 +73,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DEAD_SHEEP_ID = "dead_sheep_id";
     private static final String DEAD_SHEEP_LATITUDE = "dead_sheep_latitude";
     private static final String DEAD_SHEEP_LONGITUDE = "dead_sheep_longitude";
+    private static final String DEAD_SHEEP_SPOTTEDFROM_LATITUDE = "dead_sheep_spottedfrom_latitude";
+    private static final String DEAD_SHEEP_SPOTTEDFROM_LONGITUDE = "dead_sheep_spottedfrom_longitude";
 
 
     //for later
@@ -141,8 +146,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 PREDATOR_TABLE + " (" +
                 PREDATOR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 PREDATOR_TYPE + " TEXT NOT NULL, " +
-                PREDATOR_LATITUDE + " INTEGER NOT NULL, " +
-                PREDATOR_LONGITUDE + " INTEGER NOT NULL, " +
+                PREDATOR_LATITUDE + " DOUBLE NOT NULL, " +
+                PREDATOR_LONGITUDE + " DOUBLE NOT NULL, " +
+                PREDATOR_SPOTTEDFROM_LATITUDE + " DOUBLE NOT NULL, " +
+                PREDATOR_SPOTTEDFROM_LONGITUDE + " DOUBLE NOT NULL, " +
                 TRIP_ID + " INTEGER NOT NULL, " +
                 " FOREIGN KEY (" + TRIP_ID + ") REFERENCES "+TRIP_TABLE+"(" + TRIP_ID + "));";
 
@@ -153,8 +160,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query8 = "CREATE TABLE " +
                 DEAD_SHEEP_TABLE + " (" +
                 DEAD_SHEEP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DEAD_SHEEP_LATITUDE + " INTEGER NOT NULL, " +
-                DEAD_SHEEP_LONGITUDE + " INTEGER NOT NULL, " +
+                DEAD_SHEEP_LATITUDE + " DOUBLE NOT NULL, " +
+                DEAD_SHEEP_LONGITUDE + " DOUBLE NOT NULL, " +
+                DEAD_SHEEP_SPOTTEDFROM_LATITUDE + " DOUBLE NOT NULL, " +
+                DEAD_SHEEP_SPOTTEDFROM_LONGITUDE + " DOUBLE NOT NULL, " +
                 TRIP_ID + " INTEGER NOT NULL, " +
                 " FOREIGN KEY (" + TRIP_ID + ") REFERENCES "+TRIP_TABLE+"(" + TRIP_ID + "));";
 
@@ -284,7 +293,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addPredator(double latitude, double longitude, String predatorType, int tripID){
+    public void addPredator(double latitude, double longitude, double spottedfromLatitude, double spottedfromLongitude, String predatorType, int tripID){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -292,6 +301,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(PREDATOR_LONGITUDE, longitude);
         contentValues.put(TRIP_ID, tripID);
         contentValues.put(PREDATOR_TYPE, predatorType);
+        contentValues.put(PREDATOR_SPOTTEDFROM_LATITUDE, spottedfromLatitude);
+        contentValues.put(PREDATOR_SPOTTEDFROM_LONGITUDE, spottedfromLongitude);
         db.insert(PREDATOR_TABLE, null, contentValues);
         db.close();
     }
@@ -313,12 +324,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addDeadSheep(double latitude, double longitude, int tripID){
+    public void addDeadSheep(double latitude, double longitude, double spottedfromLatitude, double spottedfromLongitude, int tripID){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(DEAD_SHEEP_LATITUDE, latitude);
         contentValues.put(DEAD_SHEEP_LONGITUDE, longitude);
+        contentValues.put(DEAD_SHEEP_SPOTTEDFROM_LATITUDE, spottedfromLatitude);
+        contentValues.put(DEAD_SHEEP_SPOTTEDFROM_LONGITUDE, spottedfromLongitude);
         contentValues.put(TRIP_ID, tripID);
         db.insert(DEAD_SHEEP_TABLE, null, contentValues);
         Log.d("HEIHEIH", "SADASD");
@@ -443,7 +456,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor readPredatorLatLons(int tripID) {
-        String query = "SELECT " + PREDATOR_LATITUDE + "," + PREDATOR_LONGITUDE + " FROM " + PREDATOR_TABLE + " WHERE " + TRIP_ID + " = '" + tripID + "'";
+        String query = "SELECT " + PREDATOR_LATITUDE + "," + PREDATOR_LONGITUDE + "," + PREDATOR_SPOTTEDFROM_LATITUDE + "," + PREDATOR_SPOTTEDFROM_LONGITUDE +" FROM " + PREDATOR_TABLE + " WHERE " + TRIP_ID + " = '" + tripID + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = null;
+        if (db != null) {
+            c= db.rawQuery(query, null);
+        }
+
+        return c;
+    }
+
+    public Cursor readDeadLatLons(int tripID) {
+        String query = "SELECT " + DEAD_SHEEP_LATITUDE + "," + DEAD_SHEEP_LONGITUDE + "," + DEAD_SHEEP_SPOTTEDFROM_LATITUDE + "," + DEAD_SHEEP_SPOTTEDFROM_LONGITUDE +" FROM " + DEAD_SHEEP_TABLE + " WHERE " + TRIP_ID + " = '" + tripID + "'";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor c = null;

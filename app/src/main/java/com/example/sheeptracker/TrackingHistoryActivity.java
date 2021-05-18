@@ -72,17 +72,27 @@ public class TrackingHistoryActivity extends AppCompatActivity {
                     int sheepID = (int) Math.round(s[0]);
                     Cursor c = databaseHelper.readSpottedFromLatLon(sheepID);
                     while (c.moveToNext()) {
-                        Constants.runJavascript(getApplicationContext(), webView, "drawLineSheepPositionLatLng("
-                                + s[1] + ", " + s[2] + ", " + c.getDouble(0) + ", " + c.getDouble(1) + ")");
+                        Constants.runJavascript(getApplicationContext(), webView, "drawAnimalPositionLatLng("
+                                + s[1] + ", " + s[2] + ", " + c.getDouble(0) + ", " + c.getDouble(1) + ", 'red')");
                     }
                 }
 
                 for (double[] p : predatorMarkers) {
                     Constants.runJavascript(getApplicationContext(), webView, "registerPredatorPointLatLng(" + p[0] + ", " + p[1] + ")");
+                    Cursor c = databaseHelper.readPredatorLatLons(tripID);
+                    while (c.moveToNext()) {
+                        Constants.runJavascript(getApplicationContext(), webView, "drawAnimalPositionLatLng("
+                                + c.getDouble(0) + ", " + c.getDouble(1) + ", " + c.getDouble(2) + ", " + c.getDouble(3) + ", 'black')");
+                    }
                 }
 
                 for (double[] d : deadSheepMarkers) {
                     Constants.runJavascript(getApplicationContext(), webView, "registerDeadPointLatLng(" + d[0] + ", " + d[1] + ")");
+                    Cursor c = databaseHelper.readDeadLatLons(tripID);
+                    while (c.moveToNext()) {
+                        Constants.runJavascript(getApplicationContext(), webView, "drawAnimalPositionLatLng("
+                                + c.getDouble(0) + ", " + c.getDouble(1) + ", " + c.getDouble(2) + ", " + c.getDouble(3) + ", 'purple')");
+                    }
                 }
 
             }

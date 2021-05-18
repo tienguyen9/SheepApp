@@ -225,18 +225,23 @@ var circle = L.circle([lat, lon], {
 
 
 //for OfflineMapActivity
-function drawLineSheepPositionPoint(lastPoint, sheepLat, sheepLon) {
+function drawLineAnimalPositionPoint(lastPoint, sheepLat, sheepLon, clr) {
     var point = new L.LatLng(sheepLat, sheepLon);
     var pointList = [lastPoint, point];
-    var polyline = new L.Polyline(pointList, {color: 'blue'}).addTo(map);
+    var polyline = new L.Polyline(pointList, {color: clr}).addTo(map);
 }
 
 //for TrackingHistoryActivity
-function drawLineSheepPositionLatLng(spottedLat, spottedLon, sheepLat, sheepLon) {
+function drawAnimalPositionLatLng(spottedLat, spottedLon, sheepLat, sheepLon, clr) {
+    console.log("1")
     var point1 = new L.LatLng(spottedLat, spottedLon);
+    console.log("2")
     var point2 = new L.LatLng(sheepLat, sheepLon);
+    console.log("3")
     var pointList = [point1, point2];
-    var polyline = new L.Polyline(pointList, {color: 'blue'}).addTo(map);
+    console.log("4")
+    var polyline = new L.Polyline(pointList, {color: clr}).addTo(map);
+    console.log("5")
 }
 
 function chooseMapRectangle(){
