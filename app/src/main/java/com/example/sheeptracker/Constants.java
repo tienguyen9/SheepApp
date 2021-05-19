@@ -10,8 +10,8 @@ public class Constants {
     static final String START_LOCATION_SERVICE = "startLocationService";
     static final String STOP_LOCATION_SERVICE = "stopLocationService";
     //TODO Set to 25 after development
-    static final int DEFAULT_UPDATE_INTERVAL = 3;
-    static final int FAST_UPDATE_INTERTVAL = 3;
+    static final int DEFAULT_UPDATE_INTERVAL = 30;
+    static final int FAST_UPDATE_INTERTVAL = 25;
     static final int PREDATOR_REQUEST_ACTIVITY_CODE = 99;
     static final int SHEEP_REQUEST_ACTIVITY_CODE = 100;
     static final int REQUEST_LOCATION_CODE = 101;

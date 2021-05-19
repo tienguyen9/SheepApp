@@ -81,7 +81,7 @@ function showCurrentPosition(lat, lon){
 
 function drawLineBetweenPoints(pointA, pointB){
     var pointList = [pointA, pointB];
-    var firstpolyline = new L.Polyline(pointList, {color: 'red'}).addTo(map);
+    var firstpolyline = new L.Polyline(pointList, {color: 'blue'}).addTo(map);
 }
 
 function moveSheepMarker(startLat, startLon){
