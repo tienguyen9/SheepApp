@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -35,9 +37,7 @@ import java.util.Collections;
 
 
 public class DriveActivity extends Activity {
-    private static final int RC_SIGN_IN = 0;
-    SignInButton signIn;
-    GoogleSignInClient mGoogleSignInClient;
+    GoogleSignInClient client;
     TextView tv_email;
     DriveServiceHelper driveServiceHelper;
     DatabaseHelper databaseHelper;
@@ -54,9 +54,19 @@ public class DriveActivity extends Activity {
         databaseHelper = new DatabaseHelper(getApplicationContext());
         databaseHelper.getDriveID();
         path = getApplicationContext().getDatabasePath("TrackHistory.db").toString();
+
     }
 
-
+    public void logOut(View v) {
+        client.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        startActivity(new Intent(DriveActivity.this, HomeActivity.class));
+                        Toast.makeText(DriveActivity.this, "Google accound signed out", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     private void requestSignIn() {
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -66,7 +76,8 @@ public class DriveActivity extends Activity {
                 .requestEmail()
                 .build();
 
-        GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
+        client = GoogleSignIn.getClient(this, signInOptions);
+
 
         startActivityForResult(client.getSignInIntent(), 400);
     }

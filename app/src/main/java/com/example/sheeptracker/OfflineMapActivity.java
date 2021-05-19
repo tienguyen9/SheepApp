@@ -507,8 +507,8 @@ public class OfflineMapActivity extends MapActivity {
             markerLon = c.getDouble(2);
         }
         databaseHelper.updateSheep(latitude, longitude, totalNumber, blackNumber, whiteNumber, tieNumbers, earMarkStates, sheepID);
-        Constants.runJavascript(getApplicationContext(), webView, "drawAnimalSheepPositionLatLng("
-                + markerLat+ ", " + markerLon + ", " + latitude + ", " +  longitude + "), 'red'");
+        Constants.runJavascript(getApplicationContext(), webView, "drawLineAnimalPositionPoint("
+                + footprintLabels.get(footprintLabels.size()-1) + ", " + latSheep + ", " +  lonSheep + ", 'red')");
     }
 
 

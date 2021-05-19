@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_online"
+        android:id="@+id/btn_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="162dp"
@@ -35,7 +35,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
-        android:id="@+id/btn_offline"
+        android:id="@+id/btn_clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="162dp"
@@ -44,6 +44,22 @@
         android:layout_marginBottom="430dp"
         android:text="Clear local drive ID"
         android:onClick="clearDriveDB"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircleRadius="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="93dp"
+        android:layout_marginEnd="159dp"
+        android:layout_marginBottom="289dp"
+        android:text="Sign out"
+        android:onClick="logOut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintCircleRadius="0dp"
         app:layout_constraintEnd_toEndOf="parent"
