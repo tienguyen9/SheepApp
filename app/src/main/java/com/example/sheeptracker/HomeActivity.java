@@ -19,8 +19,6 @@ public class HomeActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //TODO REMOVE DELETE
-        //this.deleteDatabase("TrackHistory.db");
         databaseHelper = new DatabaseHelper(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
