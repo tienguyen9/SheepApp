@@ -1,4 +1,4 @@
-package com.example.sheeptracker;
+package utility;
 
 import android.util.Log;
 
@@ -10,9 +10,10 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import utility.DatabaseHelper;
 
 public class DriveServiceHelper {
     private final Executor  executor = Executors.newSingleThreadExecutor();
@@ -22,7 +23,6 @@ public class DriveServiceHelper {
         this.driveService = driveService;
     }
 
-    //use fileID=null if uploading for the first time
     public Task<String> uploadDBtoDrive(String filePath, DatabaseHelper databaseHelper) {
         return Tasks.call(executor, () -> {
             File fileMetaData = new File();

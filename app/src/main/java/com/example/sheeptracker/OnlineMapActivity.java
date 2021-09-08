@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import utility.Constants;
+import utility.DatabaseHelper;
 import utility.DownloadTiles;
 import utility.MapTitleDialog;
 

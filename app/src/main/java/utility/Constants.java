@@ -1,4 +1,4 @@
-package com.example.sheeptracker;
+package utility;
 
 
 import android.content.Context;
@@ -6,16 +6,15 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 public class Constants {
-    static final int LOCATION_SERVICE_ID = 175;
-    static final String START_LOCATION_SERVICE = "startLocationService";
-    static final String STOP_LOCATION_SERVICE = "stopLocationService";
-    //TODO Set to 25 after development
-    static final int DEFAULT_UPDATE_INTERVAL = 30;
-    static final int FAST_UPDATE_INTERTVAL = 25;
-    static final int PREDATOR_REQUEST_ACTIVITY_CODE = 99;
-    static final int SHEEP_REQUEST_ACTIVITY_CODE = 100;
-    static final int REQUEST_LOCATION_CODE = 101;
-    static final String[] earMarkColors = {"Red", "Blue", "Green", "Yellow"};
+    public static final int LOCATION_SERVICE_ID = 175;
+    public static final String START_LOCATION_SERVICE = "startLocationService";
+    public static final String STOP_LOCATION_SERVICE = "stopLocationService";
+    public static final int DEFAULT_UPDATE_INTERVAL = 30;
+    public static final int FAST_UPDATE_INTERTVAL = 25;
+    public static final int PREDATOR_REQUEST_ACTIVITY_CODE = 99;
+    public static final int SHEEP_REQUEST_ACTIVITY_CODE = 100;
+    public static final int REQUEST_LOCATION_CODE = 101;
+    public static final String[] earMarkColors = {"Red", "Blue", "Green", "Yellow"};
 
     //Runs javascript without callback
     public static void runJavascript(Context context, WebView webView, String jsCode){

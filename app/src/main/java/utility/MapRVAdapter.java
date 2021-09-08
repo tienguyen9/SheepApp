@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sheeptracker.DatabaseHelper;
 import com.example.sheeptracker.OfflineMapActivity;
 import com.example.sheeptracker.R;
 

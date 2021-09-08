@@ -5,13 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import utility.Constants;
+import utility.DatabaseHelper;
 
 public class TrackingHistoryActivity extends AppCompatActivity {
     int tripID;

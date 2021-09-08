@@ -3,15 +3,16 @@ package com.example.sheeptracker;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import utility.Constants;
+import utility.DatabaseHelper;
 
 public class HomeActivity extends AppCompatActivity {
 

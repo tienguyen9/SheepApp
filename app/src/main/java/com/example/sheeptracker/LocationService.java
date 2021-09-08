@@ -21,6 +21,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import utility.Constants;
+
 public class LocationService extends Service {
 
     double latitude;

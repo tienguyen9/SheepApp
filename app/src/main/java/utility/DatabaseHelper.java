@@ -1,4 +1,4 @@
-package com.example.sheeptracker;
+package utility;
 
 import android.content.ContentValues;
 import android.content.Context;
