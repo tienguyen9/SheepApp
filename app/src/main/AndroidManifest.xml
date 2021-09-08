@@ -31,7 +31,7 @@
         <activity android:name=".DriveActivity" />
 
         <service
-            android:name=".LocationService"
+            android:name="utility.LocationService"
             android:enabled="true"
             android:exported="true"
             android:foregroundServiceType="location" />

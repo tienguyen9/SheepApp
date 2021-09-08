@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import utility.Constants;
+import utility.LocationService;
 
 public abstract class MapActivity extends AppCompatActivity {
 
